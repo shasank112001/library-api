@@ -5,17 +5,19 @@ import com.ing.library.libraryapi.dto.BookModificationDto;
 import com.ing.library.libraryapi.model.Book;
 import com.ing.library.libraryapi.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("ing/api/v1/library/books")
+@RequestMapping(value = BookController.BASE_API, produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @RequiredArgsConstructor
 public class BookController {
 
+  public static final String BASE_API = "/ing/api/v1/library/books";
   private final BookService bookService;
 
   @GetMapping()
