@@ -22,7 +22,7 @@ public class JWTService {
   private static final ConcurrentHashMap<String, Boolean> invalidatedTokens = new ConcurrentHashMap<String, Boolean>();
 //  RSA 2048bit key
   private static final String SECRET_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1gsAvHdgcz0QqRSlD+AijYbwVHFNfYSc0xxLdCxNqJbYug/rNb07OKTwF810Q+j5L09qFFsODIU/FlovKQdulZertmUFFiOAp6Gk4Z2pTkHqfu8EwGgPkLzsBEp+G8lralmII7DpdKd84mlK1/0s/TdbI4CxkakgO2ROiEthRWUeQCUzNpzYZRNFNwzLNWHvBw3Estsfa8l1Y32ZAJYZmCXk8mSprJfJPJbOVxSW3rYZCf8uEO2UMnaB+Z/yZakBNPXt34qUAMW5LNErIxsX0pv69UgGwUwAWb0TT5YnJjHfpDt/rJOVc7thCJ8oXq5a7XEhNe5oK0VLiLMA9HYAaQIDAQAB";
-  private static final long EXPIRATION_DURATION = 10 * 60 * 1000;
+  public static final long EXPIRATION_DURATION = 10 * 60 * 1000;
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -68,7 +68,7 @@ public class JWTService {
   public <T> T extractClaim(String token, Function<Claims, T> resolver) {
     return resolver.apply(this.extractAllClaims(token));
   }
-  private Claims extractAllClaims(String token) {
+  public Claims extractAllClaims(String token) {
     return Jwts.parserBuilder()
         .setSigningKey(getSigningKey())
         .build()

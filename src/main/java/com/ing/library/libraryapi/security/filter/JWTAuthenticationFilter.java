@@ -7,6 +7,7 @@ import com.ing.library.libraryapi.model.User;
 import com.ing.library.libraryapi.security.jwt.JWTService;
 import com.ing.library.libraryapi.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,7 +54,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
           throw new BadCredentialsException("token is invalid");
         }
       }
-    } catch (ExpiredJwtException | AuthenticationException e) {
+    } catch (ExpiredJwtException | AuthenticationException | MalformedJwtException e) {
       response.sendError(401, "Invalid Token");
       return;
     }
