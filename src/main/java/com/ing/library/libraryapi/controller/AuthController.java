@@ -1,12 +1,14 @@
 package com.ing.library.libraryapi.controller;
 
 import com.ing.library.libraryapi.dto.Credentials;
+import com.ing.library.libraryapi.exception.BadCredentialsException;
 import com.ing.library.libraryapi.security.jwt.JWTService;
 import com.ing.library.libraryapi.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,15 +21,20 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody(required = true) Credentials userCredentials) {
-    if (userService.login(userCredentials.username(), userCredentials.password())) {
-      var jwtToken = jwtService.generateJWTToken(userService.findByName(userCredentials.username()));
-      return ResponseEntity.ok().header("Authorization", "Bearer " + jwtToken).build();
-    } else {
-      return ResponseEntity.notFound().build();
+    try {
+      if (userService.login(userCredentials.username(), userCredentials.password())) {
+        var jwtToken = jwtService.generateJWTToken(userService.findByName(userCredentials.username()));
+        return ResponseEntity.ok().header("Authorization", "Bearer " + jwtToken).build();
+      } else {
+        throw new BadCredentialsException("Invalid Credentials");
+      }
+    } catch (AuthenticationException e) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
   }
 
-  @GetMapping("/out")
+  @GetMapping("/logout")
   @ResponseStatus(HttpStatus.OK)
   public void logout(HttpServletRequest request) {
     final String authHeader = request.getHeader("Authorization");
