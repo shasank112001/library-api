@@ -1,6 +1,7 @@
 package com.ing.library.libraryapi.service;
 
 import com.ing.library.libraryapi.dto.UserDto;
+import com.ing.library.libraryapi.exception.BadCredentialsException;
 import com.ing.library.libraryapi.exception.EntityNotFoundException;
 import com.ing.library.libraryapi.model.Role;
 import com.ing.library.libraryapi.model.User;
@@ -24,7 +25,7 @@ public class UserService {
   }
 
   public boolean login(String userName, String password) {
-    User user = this.findByName(userName);
+    User user = this.userRepository.findByUserName(userName).orElseThrow(() -> new BadCredentialsException("Invalid user credentials"));
     return (passwordEncoder.matches(user.getSalt() + password, user.getPassword()));
   }
 
