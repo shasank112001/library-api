@@ -7,6 +7,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -21,8 +24,7 @@ public class JWTService {
 
   private static final ConcurrentHashMap<String, Boolean> invalidatedTokens = new ConcurrentHashMap<String, Boolean>();
 //  RSA 2048bit key
-  private static final String SECRET_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1gsAvHdgcz0QqRSlD+AijYbwVHFNfYSc0xxLdCxNqJbYug/rNb07OKTwF810Q+j5L09qFFsODIU/FlovKQdulZertmUFFiOAp6Gk4Z2pTkHqfu8EwGgPkLzsBEp+G8lralmII7DpdKd84mlK1/0s/TdbI4CxkakgO2ROiEthRWUeQCUzNpzYZRNFNwzLNWHvBw3Estsfa8l1Y32ZAJYZmCXk8mSprJfJPJbOVxSW3rYZCf8uEO2UMnaB+Z/yZakBNPXt34qUAMW5LNErIxsX0pv69UgGwUwAWb0TT5YnJjHfpDt/rJOVc7thCJ8oXq5a7XEhNe5oK0VLiLMA9HYAaQIDAQAB";
-  public static final long EXPIRATION_DURATION = 10 * 60 * 1000;
+  private final JWTConfigurationProperties configurationProperties;
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -50,7 +52,7 @@ public class JWTService {
     return Jwts.builder()
         .setSubject(user.getUsername() )
         .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_DURATION))
+        .setExpiration(new Date(System.currentTimeMillis() + configurationProperties.getExpirationDuration()))
         .signWith(getSigningKey(), SignatureAlgorithm.HS256)
         .compact();
   }
@@ -60,7 +62,7 @@ public class JWTService {
         .addClaims(claims)
         .setSubject(user.getUsername())
         .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_DURATION))
+        .setExpiration(new Date(System.currentTimeMillis() + configurationProperties.getExpirationDuration()))
         .signWith(getSigningKey(), SignatureAlgorithm.HS256)
         .compact();
   }
@@ -77,7 +79,7 @@ public class JWTService {
   }
 
   private Key getSigningKey() {
-    return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+    return Keys.hmacShaKeyFor(Decoders.BASE64.decode(configurationProperties.getSecretKey()));
   }
 
 }

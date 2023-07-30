@@ -5,6 +5,7 @@ import com.ing.library.libraryapi.controller.AuthController;
 import com.ing.library.libraryapi.controller.BookController;
 import com.ing.library.libraryapi.dto.Credentials;
 import com.ing.library.libraryapi.repository.UserRepository;
+import com.ing.library.libraryapi.security.jwt.JWTConfigurationProperties;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
