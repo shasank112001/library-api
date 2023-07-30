@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
 
-  public static final String BASE_API = "/ing/api/v1/library/books";
+  public static final String BASE_API = "/library/api/v1/books";
   private final BookService bookService;
 
   @GetMapping()

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(value = AuthController.BASE_API)
 public class AuthController {
-  public static final String BASE_API = "/ing/api/v1/library/auth";
+  public static final String BASE_API = "/library/api/v1/auth";
   private final JWTService jwtService;
   private final UserService userService;
 
