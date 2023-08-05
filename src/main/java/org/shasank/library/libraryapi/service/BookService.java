@@ -18,8 +18,8 @@ public class BookService {
   public List<BookDto> getAllBooks() {
     return this.bookRepository.findAll().stream().map(BookDto::from).toList();
   }
-  public List<BookDto> filterByAuthorNameAndBookTitle(String authorName, String bookTitle) {
-    return this.bookRepository.findByAuthorNameAndBookTitle(authorName, bookTitle).stream().map(BookDto::from).toList();
+  public List<BookDto> filterByAuthorNameAndBookTitle(String authorName, String bookTitle, boolean unique) {
+    return this.bookRepository.findByAuthorNameAndBookTitle(authorName, bookTitle, unique).stream().map(BookDto::from).toList();
   }
 
   public BookDto addBook(BookModificationDto bookDto) {
