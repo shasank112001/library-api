@@ -2,11 +2,12 @@ package org.shasank.library.libraryapi.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration properties used to create JWT tokens.
+ */
 @Configuration
 @ConfigurationProperties(prefix = "app.security.jwt")
 @Getter

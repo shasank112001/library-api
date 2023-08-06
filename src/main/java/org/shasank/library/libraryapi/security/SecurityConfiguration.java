@@ -54,6 +54,5 @@ public class SecurityConfiguration {
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         .exceptionHandling(e -> e.accessDeniedHandler(unauthorizedAccessHandler))
         .build();
-//    return http.build();
   }
 }

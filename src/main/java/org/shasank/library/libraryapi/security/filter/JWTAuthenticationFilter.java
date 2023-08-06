@@ -21,6 +21,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Filter to check each request for a JWT token, authorising it.
+ * If there is no token or the token is invalid, the filter returns a 401 error.
+ */
 @RequiredArgsConstructor
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -55,7 +59,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       response.sendError(401, "Invalid Token");
       return;
     }
-
     filterChain.doFilter(request, response);
   }
 }

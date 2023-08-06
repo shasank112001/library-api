@@ -15,6 +15,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
+/**
+ * Service responsible for creating and processing JWT Tokens
+ */
 @Service
 @RequiredArgsConstructor
 public class JWTService {

@@ -15,6 +15,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+/**
+ * Custom AccessDeniedHandler to send a custom response instead of Spring's normal response
+ * upon unauthorized access of resources.
+ */
 @Component
 public class UnauthorizedAccessHandler implements AccessDeniedHandler {
 
